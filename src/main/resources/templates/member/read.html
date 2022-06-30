@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/main.css">
+<script th:inline="javascript">
+$(function() {
+	$("#header").load("/include/header.html");
+	$("#aside").load("/include/aside.html");
+	$("#footer").load("/include/footer.html");
+});
+</script>
+</head>
+<body>
+<div id="page">
+	<header id="header">
+	</header>
+	<nav th:replace="/fragments/nav">
+	</nav>
+	<div id="main">
+		<aside id="aside">
+		</aside>
+		<section id="section">
+			<table class="table table-hover">
+				<tr>
+					<td>
+						<img id="show_profile" height="200px;">
+						<input type="file" name="sajin" id="sajin" src="#{member.profile}">
+					</td>
+				</tr>
+				<tr>
+					<td class="first">이름</td>
+					<td>
+						<input type="text" id="irum">&nbsp;
+						<button type="button" class="btn btn-info" id="changeIrum">이름변경</button></td>
+					<td>
+						<img width="120px" id="sajin">
+					</td>
+				</tr>
+				<tr>
+					<td class="first">아이디</td>
+					<td colspan="2"><span id="username"></span></td>
+				</tr>
+				<tr>
+					<td class="first">생년월일</td><td colspan="2">
+					<span id="birthday"></span></td>
+				</tr>
+				<tr>
+					<td class="first">가입일</td>
+					<td colspan="2"><span id="joinday"></span></td>
+				</tr>
+				<tr>
+					<td class="first">레벨</td>
+					<td colspan="2"><span id="level"></span></td>
+				</tr>
+				<tr><td class="first">비밀번호</td>
+					<td colspan="2">
+						<button type="button" class="btn btn-info" id="activateChangePwd">비밀번호 수정</button>
+						<div id="pwdArea">
+							<span class="key">현재 비밀번호 : </span><input type="password" id="pwd"><br>
+							<span class="key">새 비밀번호 : </span><input type="password" id="newPwd"><br>
+							<span class="key">새 비밀번호 확인 : </span><input type="password" id="newPwd2">
+			  				<button type="button" class="btn btn-info" id="changePwd">변경</button>
+						</div>
+					</td></tr>
+				<tr><td class="first">이메일</td>
+					<td colspan="2">
+						<input type="text" name="email" id="email">
+					</td></tr>
+				<tr><td class="first">연락처</td>
+					<td colspan="2">
+						<input type="text" name="tel" id="tel">
+					</td></tr>
+				<tr><td class="first">회원정보</td>
+					<td colspan="2">
+						로그인 횟수 : <span id="loginCnt"></span><br>
+						작성 글수 : <span id="writeCnt"></span>
+					</td></tr>
+			</table>
+			<button type="button" class="btn btn-success" id="update">변경하기</button>
+		</section>
+	</div>
+	<header id="footer">
+	</header>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zboard.dao.MemberDao">
+
+	<select id="existsById" resultType="boolean">
+		select count(*) from member where username=#{username} and rownum=1
+	</select>
+	
+	<select id="existsByEmail" resultType="boolean">
+		select count(*) from member where email=#{email} and rownum=1
+	</select>
+	
+	<resultMap type="member" id="memberMap">
+		<id property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="irum" column="irum" />
+		<result property="birthday" column="birthday" />
+		<result property="joinday" column="joinday" />
+		<result property="writeCnt" column="write_cnt" />
+		<result property="loginCnt" column="login_cnt" />
+		<result property="level" column="levels" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="loginFailCnt" column="login_fail_cnt" />
+		<result property="enabled" column="enabled" />
+	</resultMap>
+
+	<select id="findById" resultMap="memberMap">
+		select * from member where username=#{username} and rownum=1
+	</select>
+	
+	<select id="findByEmail" resultMap="memberMap">
+		select * from member where email=#{email} and rownum=1
+	</select>
+	
+	<insert id="insert">
+		insert into member(username,password,email,irum,birthday, joinday, write_cnt, login_cnt, levels, login_fail_cnt, enabled, profile)
+		values(#{username},#{password},#{email},#{irum},#{birthday},sysdate,0,0,1,0, 0, #{profile})
+	</insert>
+	
+	<resultMap type="com.example.zboard.data.dto.MemberDto$ReadWithAuthority" id="readWithAuthorityMap">
+		<id property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="enabled" column="enabled" />
+		<collection property="roles" ofType="string" javaType="java.util.ArrayList">
+			<result column="authority_name" />
+		</collection>
+	</resultMap>
+	
+	<select id="readWithAuthority" resultMap="readWithAuthorityMap">
+		select m.username, m.password, m.enabled, a.authority_name from member m, authority a where m.username=a.username and m.username=#{username} 
+	</select>	
+	
+	<update id="update">
+		update member
+		<trim suffixOverrides="," prefix="set">
+			<if test="password!=null">password=#{password},</if>
+			<if test="email!=null">email=#{email},</if>
+			<if test="writeCnt!=null">write_cnt=#{writeCnt},</if>
+			<if test="loginCnt!=null">login_cnt=login_cnt+1,</if>
+			<if test="loginFailCnt!=null">login_fail_cnt=#{loginFailCnt},</if>
+			<if test="enabled!=null">enabled=#{enabled},</if>
+			<if test="level!=null">levels=#{level},</if>
+			<if test="profile!=null">profile=#{profile},</if>
+		</trim>
+		where username=#{username} and rownum=1
+	</update>
+	
+	<delete id="deleteById">
+		delete from member where username=#{username} and rownum=1
+	</delete>
+</mapper>

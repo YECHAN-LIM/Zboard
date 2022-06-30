@@ -1,0 +1,35 @@
+create table member (
+	username varchar2(10),
+	password varchar2(60),
+	irum varchar2(10 char),
+	email varchar(50),
+	birthday date,
+	joinday date,
+	write_cnt number(10),
+	login_cnt number(10),
+	login_fail_cnt number(1),
+	enabled number(1),
+	levels number(1),
+	profile varchar2(15),
+	constraint member_pk_username primary key(username)
+);
+
+-- 1:1 관계
+create table member_checkcode (
+	username varchar2(10),
+	checkcode char(20) not null,						-- 컬럼 레벨
+	constraint member_checkcode_pk_username primary key(checkcode)		-- 테이블 레벨
+);
+
+-- 식별관계 : 다른 테이블에서 읽어온 외래키가 기본키가 된다
+--	부모 테이블이 존재해야만 자식 테이블이 존재할 수 있다
+-- 비식별관계 : 외래키가 기본키가 아니다
+--	부모 테이블은 단순한 참조
+
+-- 1:다 관계
+create table authority (
+	username varchar2(10),
+	authority_name varchar2(20),
+	constraint authority_pk primary key(username, authority_name)		-- 복합기본키는 테이블 레벨로만 지정 가능
+);
+
